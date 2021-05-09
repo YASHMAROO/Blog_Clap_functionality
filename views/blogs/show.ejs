@@ -1,0 +1,40 @@
+<%- include ('../partials/header.ejs') %>
+
+    <div class="ui main text container segment">
+        <div class="ui huge header">
+            <%= data.blog.title %>
+        </div>
+        <div clas="ui top attached segment">
+            <div class="item">
+                <img class="ui centered rounded image" src="<%= data.blog.image %>">
+                <div class="content">
+                    <span>Date: <%= data.blog.created.toDateString() %></span>
+                </div>
+                <div class="description">
+                    <p>
+                        <%- data.blog.body %>
+                    </p>
+                    <p>
+                        <em>Submitted by <%= data.blog.creator.name %></em>
+                    </p>
+                </div>
+                <% if(currentUser) { %>
+                    <form id="delete" action="/blogs/<%=data.blog._id%>" method="POST">
+                        <% if(data.index === -1) {%>
+                            <button class="ui blue basic button">Clap</button>
+                        <% } %>
+                        <% if(data.index != -1) {%>
+                            <button class="ui blue basic button">Unclap</button>
+                        <% } %>
+                    </form>
+                <% } %>
+                <% if(currentUser && data.blog.creator.id.equals(currentUser._id)) { %>
+                    <form id="delete" action="/blogs/<%=data.blog._id%>?_method=DELETE" class="mt-2" method="POST">
+                        <button class="ui red basic button">Delete</button>
+                    </form>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+<%- include ('../partials/footer.ejs') %>
